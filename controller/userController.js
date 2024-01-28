@@ -1,18 +1,10 @@
+const { truncate } = require('fs');
 const db = require('../model/index');
 
 const Users = db.users;
 
 const addUser = async (req, res) => {
     try {
-        // Create a new user instance
-
-        // const newUser = await Users.build({
-        //     name: "abhishek Savaliya",
-        //     email: 'test2@gmail.com',
-        //     gender: 'male'
-        // });
-
-        // await newUser.save()
 
         const newUser = await Users.create({
             name: "abhishek Savaliya",
@@ -32,6 +24,46 @@ const addUser = async (req, res) => {
     }
 };
 
+const crud = async (req, res) => {
+    //Insert
+    // const data = await Users.create({
+    //     name: "abhishek",
+    //     email: 'test2@gmail.com',
+    //     gender: 'male'
+    // });
+
+    //update
+    // const data = await Users.update({
+    //     name: 'Jay shree Krishna',email : 'abhishek@gmail.com'
+    // }, { where: { id: 3 } })
+
+    //delete
+    // const data = await Users.destroy({ where: { id: 3 } })
+
+    //truncate
+    // let data = await Users.destroy({
+    //     truncate: true
+    // })
+
+    //bulk Insert
+    // const data = await Users.bulkCreate([{
+    //     name : 'first',email : 'first@gmail.com' ,gender : 'male'
+    // },
+    // {
+    //     name : 'first',email : 'first@gmail.com' ,gender : 'male'
+    // },{
+    //     name : 'first',email : 'first@gmail.com' ,gender : 'male'
+    // }])
+
+    //find
+
+    let data = await Users.findAll({})
+    // let data = await Users.findOne({})
+    
+    res.status(200).json({ message: "success", data: data })
+}
+
 module.exports = {
-    addUser
+    addUser,
+    crud
 };
