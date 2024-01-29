@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
 
 app.get('/add', userController.addUser)
 app.get('/crud', userController.crud)
+app.get('/query', userController.queryData)
 
 app.listen(PORT, () => {
     console.log("SERVER is running on PORT 5001")

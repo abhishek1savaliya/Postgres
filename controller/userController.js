@@ -59,11 +59,21 @@ const crud = async (req, res) => {
 
     let data = await Users.findAll({})
     // let data = await Users.findOne({})
-    
+
     res.status(200).json({ message: "success", data: data })
+}
+
+const queryData = async (req, res) => {
+    const data = await Users.create({
+        name: "Radha",
+        email: 'Radha@gmail.com',
+        gender: 'male'
+    }, { fields: ['email', 'gender'] }); //only this field goes into database
+    res.status(200).json({ message: "success" })
 }
 
 module.exports = {
     addUser,
-    crud
+    crud,
+    queryData
 };
