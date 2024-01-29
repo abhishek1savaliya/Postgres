@@ -1,6 +1,5 @@
-const { truncate } = require('fs');
 const db = require('../model/index');
-
+const { Sequelize, Op } = require('sequelize')
 const Users = db.users;
 
 const addUser = async (req, res) => {
@@ -64,12 +63,56 @@ const crud = async (req, res) => {
 }
 
 const queryData = async (req, res) => {
-    const data = await Users.create({
-        name: "Radha",
-        email: 'Radha@gmail.com',
-        gender: 'male'
-    }, { fields: ['email', 'gender'] }); //only this field goes into database
-    res.status(200).json({ message: "success" })
+    // const data = await Users.create({
+    //     name: "Radha",
+    //     email: 'Radha@gmail.com',
+    //     gender: 'male'
+    // }, { fields: ['email', 'gender'] }); //only this field goes into database
+
+    //select
+    // let data = await Users.findAll({});
+    // let data = await Users.findOne({});
+    // const data = await Users.findAll({ attributes: ['name', 'email'] }); //only for particular field 
+
+    // const data = await Users.findAll({
+    //     attributes: [
+    //         'name',
+    //         ['email', 'emailId'],
+    //         'gender',
+    //         [Sequelize.fn('CONCAT', Sequelize.col('email')), 'emailCount']
+    //     ],
+    //     group: ['name', 'email', 'gender']
+    // });
+
+    // const data = await Users.findAll({
+    //     attributes: {
+    //         exclude: ['createdAt'],
+    //         include: [
+    //             [Sequelize.fn('CONCAT', Sequelize.col('name'), 'singh'), 'fullname']
+    //         ]
+    //     }
+    // })
+
+    const data = await Users.findAll({
+        attributes: ['email', 'name'],
+        where: {
+            id: {
+                [Op.gt]: 53
+            },
+            email: {
+                [Op.like]: '%@gmail.com'
+            }
+        },
+        order: [
+            ['name', 'DESC']
+        ],
+        group: ['email', 'name'],
+        limit: 2,
+        offset: 2
+    });
+    
+
+    res.status(200).json({ message: "success", data: data })
 }
 
 module.exports = {

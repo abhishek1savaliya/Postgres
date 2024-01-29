@@ -8,7 +8,7 @@ const sequelize = new Sequelize({
     host: 'localhost',
     port: 5432,
     database: 'learning',
-    logging: false
+    logging: true
 });
 
 // Authenticate the connection
