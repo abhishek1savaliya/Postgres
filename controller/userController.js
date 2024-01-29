@@ -93,30 +93,71 @@ const queryData = async (req, res) => {
     //     }
     // })
 
-    const data = await Users.findAll({
-        attributes: ['email', 'name'],
-        where: {
-            id: {
-                [Op.gt]: 53
-            },
-            email: {
-                [Op.like]: '%@gmail.com'
-            }
-        },
-        order: [
-            ['name', 'DESC']
-        ],
-        group: ['email', 'name'],
-        limit: 2,
-        offset: 2
-    });
-    
+    // const data = await Users.findAll({
+    //     attributes: ['email', 'name'],
+    //     where: {
+    //         id: {
+    //             [Op.gt]: 53
+    //         },
+    //         email: {
+    //             [Op.like]: '%@gmail.com'
+    //         }
+    //     },
+    //     order: [
+    //         ['name', 'DESC']
+    //     ],
+    //     group: ['email', 'name'],
+    //     limit: 2,
+    //     offset: 2
+    // });
+
+    const data = await Users.count({});
 
     res.status(200).json({ message: "success", data: data })
+}
+
+const findData = async (req, res) => {
+
+    // const data = await Users.findAll({})
+    // const data = await Users.findOne({})
+    // const data = await Users.findByPk(60)
+    // const data = await Users.findAndCountAll({ where: { email: 'first@gmail.com' } })
+
+    const [data, created] = await Users.findOrCreate({
+        where: { name: 'dummy1' },
+        defaults: {
+            email: 'dummy1@gmail.com',
+            gender: 'male'
+        }
+    })
+
+    res.json({
+        message: "finder",
+        data: data,
+        add: created
+    })
+}
+
+const getSet = async (req, res) => {
+
+    // const data = await Users.create({
+    //     name: "Mahesh",
+    //     email: 'mahesh@gmail.com',
+    //     gender: 'male'
+    // });
+
+    const data = await Users.findAll({})
+
+    res.status(200).json({
+        message: true,
+        data: data
+    })
 }
 
 module.exports = {
     addUser,
     crud,
-    queryData
+    queryData,
+    findData,
+    getSet
 };
