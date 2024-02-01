@@ -19,6 +19,7 @@ app.get('/query', userController.queryData)
 app.get('/finder', userController.findData)
 app.get('/getset', userController.getSet)
 app.get('/validation', userController.validation)
+app.get('/rawQuery', userController.rawQuery)
 
 app.listen(PORT, () => {
     console.log("SERVER is running on PORT 5001")

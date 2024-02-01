@@ -1,5 +1,5 @@
 const db = require('../model/index');
-const { Sequelize, Op } = require('sequelize')
+const { Sequelize, Op, QueryTypes } = require('sequelize')
 const Users = db.users;
 
 const addUser = async (req, res) => {
@@ -155,19 +155,29 @@ const getSet = async (req, res) => {
 }
 
 const validation = async (req, res) => {
-
     try {
         const data = await Users.create({
             name: "Rajesh",
             email: 'Raadsgh@gmail.com',
-            gender: 'fmale'
+            gender: 'female'
         });
         res.json({ message: data })
     }
     catch (error) {
         res.status(400).json({ message: error })
     }
+}
 
+const rawQuery = async (req, res) => {
+    try {
+        const users = await db.sequelize.query('select * from users', {
+            type: QueryTypes.SELECT
+        })
+        res.json({ message: "raw query", record: users })
+    }
+    catch (error) {
+        res.status(400).json({ message: error })
+    }
 }
 
 module.exports = {
@@ -176,5 +186,6 @@ module.exports = {
     queryData,
     findData,
     getSet,
-    validation
+    validation,
+    rawQuery
 };

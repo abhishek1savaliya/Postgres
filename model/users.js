@@ -27,9 +27,9 @@ module.exports = (sequelize, Datatypes) => {
                 //     msg: 'Please enter only Male'
                 // },
                 // isIn: [['male', 'female']]
-                isIn :{
-                    args : [['male','female']],
-                    msg : 'Please select male or female Only'
+                isIn: {
+                    args: [['male', 'female']],
+                    msg: 'Please select male or female Only'
                 }
             }
         }
