@@ -20,7 +20,10 @@ module.exports = (sequelize, Datatypes) => {
             }
         },
         gender: {
-            type: Datatypes.STRING
+            type: Datatypes.STRING,
+            validate: {
+                equals: 'male'
+            }
         }
     }, {
         // tableName: 'userdata',

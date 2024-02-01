@@ -159,13 +159,13 @@ const validation = async (req, res) => {
     try {
         const data = await Users.create({
             name: "Mahesh",
-            email: 'maheslalo@gmail.com',
-            gender: 'male'
+            email: 'mahesllo@gmail.com',
+            gender: 'female'
         }); 
         res.json({ message: data })
     }
     catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error })
     }
 
 }
