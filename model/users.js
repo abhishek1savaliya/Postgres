@@ -13,6 +13,8 @@ module.exports = (sequelize, Datatypes) => {
         email: {
             type: Datatypes.STRING,
             defaultValue: 'test@gmail.com',
+            allowNull: false,
+            unique: true,
             set(value) {
                 this.setDataValue('email', value + ".in")
             }
@@ -22,11 +24,11 @@ module.exports = (sequelize, Datatypes) => {
         }
     }, {
         // tableName: 'userdata',
-        timeStamp: true
+        timeStamp: true,
         // createdAt : false
         // createdAt : 'create_at
         //updatedAt : 'update_at,
-        //engine : 'MyISM
+        // engine : 'MyISM'
     })
 
     return User

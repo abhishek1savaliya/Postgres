@@ -154,10 +154,27 @@ const getSet = async (req, res) => {
     })
 }
 
+const validation = async (req, res) => {
+
+    try {
+        const data = await Users.create({
+            name: "Mahesh",
+            email: 'maheslalo@gmail.com',
+            gender: 'male'
+        }); 
+        res.json({ message: data })
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+
+}
+
 module.exports = {
     addUser,
     crud,
     queryData,
     findData,
-    getSet
+    getSet,
+    validation
 };
