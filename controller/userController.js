@@ -159,8 +159,8 @@ const validation = async (req, res) => {
     try {
         const data = await Users.create({
             name: "Rajesh",
-            email: 'Rajesh@gmail.com',
-            gender: 'male'
+            email: 'Rajh@gmail.com',
+            gender: 'fmale'
         });
         res.json({ message: data })
     }
