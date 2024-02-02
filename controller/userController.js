@@ -194,12 +194,15 @@ const rawQuery = async (req, res) => {
 }
 
 const oneToOne = async (req, res) => {
+
     const data = await Users.findAll({
-        include: Posts,
+        attributes: ['name', 'email',],
+        include: [{ model: Posts, attributes: ['title', ['name', 'PostName']] }],
         where: {
             id: 4
         }
     })
+
     res.status(200).json({
         message: true,
         data: data
