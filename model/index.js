@@ -20,17 +20,19 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', error);
     });
 
-// Define a 'db' object to store Sequelize and models
 const db = {};
 
-// Store Sequelize and sequelize instance in the 'db' object
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
-db.users = require('./users')(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false }).then(() => {
     console.log('Database synchronized successfully');
 });
+
+db.users = require('./users')(sequelize, DataTypes);
+db.posts = require('./post')(sequelize, DataTypes);
+
+db.users.hasOne(db.posts, { foreignKey: 'user_id' })
+db.posts.belongsTo(db.users, { foreignKey: 'user_id' })
 
 module.exports = db;

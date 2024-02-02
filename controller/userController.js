@@ -1,19 +1,28 @@
 const db = require('../model/index');
-const { Sequelize, Op, QueryTypes } = require('sequelize')
+const { Sequelize, Op, QueryTypes } = require('sequelize');
+const Posts = db.posts
 const Users = db.users;
 
 const addUser = async (req, res) => {
     try {
 
         const newUser = await Users.create({
-            name: "abhishek Savaliya",
-            email: 'test2@gmail.com',
+            name: "abhik Savaliya",
+            email: 'abhisheksavdfg@gmail.com',
             gender: 'male'
         });
 
+        // const addPost = await Posts.create({
+        //     "name": "John Doe",
+        //     "title": "My First Post",
+        //     "content": "This is the content of my post.",
+        //     "user_id": 2
+        // })
+
         let response = {
             data: 'ok',
-            user: newUser
+            user: newUser,
+            // post: addPost
         };
 
         res.status(201).json(response);
@@ -170,14 +179,31 @@ const validation = async (req, res) => {
 
 const rawQuery = async (req, res) => {
     try {
-        const users = await db.sequelize.query('select * from users', {
-            type: QueryTypes.SELECT
+        const users = await db.sequelize.query('select * from users where gender = :gender', {
+            type: QueryTypes.SELECT,
+            // model : Users,
+            // mapToModel : true,
+            // raw: true
+
         })
         res.json({ message: "raw query", record: users })
     }
     catch (error) {
         res.status(400).json({ message: error })
     }
+}
+
+const oneToOne = async (req, res) => {
+    const data = await Users.findAll({
+        include: Posts,
+        where: {
+            id: 4
+        }
+    })
+    res.status(200).json({
+        message: true,
+        data: data
+    })
 }
 
 module.exports = {
@@ -187,5 +213,6 @@ module.exports = {
     findData,
     getSet,
     validation,
-    rawQuery
+    rawQuery,
+    oneToOne
 };
