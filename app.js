@@ -22,6 +22,7 @@ app.get('/validation', userController.validation)
 app.get('/rawQuery', userController.rawQuery)
 
 app.get('/onetoone', userController.oneToOne)
+app.get('/belongsto', userController.belongsTo)
 
 app.listen(PORT, () => {
     console.log("SERVER is running on PORT 5001")
