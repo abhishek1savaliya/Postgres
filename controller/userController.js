@@ -219,9 +219,29 @@ const belongsTo = async (req, res) => {
         attributes: ['content', 'title'],
         include: [{
             model: Users,
+            as: 'userInfo',
             attributes: ['name', 'email']
 
         }]
+    })
+
+    res.status(200).json({
+        message: true,
+        data: data
+    })
+}
+
+const oneToMany = async (req, res) => {
+    const data = await Users.findAll({
+        attributes: ['name', 'email',],
+        include: [{
+            model: Posts,
+            as: 'postDetail',
+            attributes: ['title', ['name', 'PostName']]
+        }],
+        // where: {
+        //     id: 2
+        // }
     })
 
     res.status(200).json({
@@ -239,5 +259,6 @@ module.exports = {
     validation,
     rawQuery,
     oneToOne,
-    belongsTo
+    belongsTo,
+    oneToMany
 };
