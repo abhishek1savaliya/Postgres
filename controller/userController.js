@@ -196,7 +196,6 @@ const rawQuery = async (req, res) => {
 }
 
 const oneToOne = async (req, res) => {
-
     const data = await Users.findAll({
         attributes: ['name', 'email',],
         include: [{
@@ -253,9 +252,7 @@ const oneToMany = async (req, res) => {
 }
 
 const manyToMany = async (req, res) => {
-
     //Many to Many for Post
-
     // const data = await Posts.findAll({
     //     attributes: ['title', 'content'],
     //     include: [{
@@ -275,6 +272,27 @@ const manyToMany = async (req, res) => {
     res.json({ message: data })
 }
 
+const scopes = async (req, res) => {
+    try {
+        // const data = await Users.scope('checkGender').findAll({});
+
+        // let data = await Posts.findAll({
+        //     include: [{
+        //         model: Users, as: 'userInfo'
+        //     }]
+        // })
+
+        const data = await Users.scope(['includePost']).findAll({});
+
+        res.json({
+            message: "success",
+            data: data
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching data", error: error });
+    }
+};
+
 module.exports = {
     addUser,
     crud,
@@ -286,5 +304,6 @@ module.exports = {
     oneToOne,
     belongsTo,
     oneToMany,
-    manyToMany
+    manyToMany,
+    scopes
 };

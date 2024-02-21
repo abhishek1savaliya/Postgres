@@ -37,9 +37,23 @@ db.post_tag = require('./post_tag')(sequelize, DataTypes)
 
 // db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'postDetail' })
 
+db.users.addScope('checkGender', {
+    where: {
+        gender: 'male'
+    }
+});
+
+db.users.addScope('includePost', {
+    include: {
+        model: db.posts,
+        as: 'postDetail',
+        attributes: ['name', 'content']
+    }
+});
+
 //oneToOne 
 db.users.hasMany(db.posts, { foreignKey: 'user_id', as: 'postDetail' })
-db.posts.belongsTo(db.users, { foreignKey: 'user_id', as: 'userInfo' })
+db.posts.belongsTo(db.users.scope('checkGender'), { foreignKey: 'user_id', as: 'userInfo' })
 
 // oneToMany
 db.posts.belongsToMany(db.tags, { through: 'post_tag' })

@@ -31,6 +31,10 @@ app.get('/onetomany', userController.oneToMany)
 //ManyToMany
 app.get('/manytomany', userController.manyToMany)
 
+//socpes
+
+app.get('/scopes',userController.scopes)
+
 
 
 app.listen(PORT, () => {

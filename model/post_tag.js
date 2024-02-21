@@ -3,6 +3,5 @@ module.exports = (sequelize, DataTypes) => {
         postId: DataTypes.INTEGER,
         tagId: DataTypes.INTEGER
     })
-
     return Post_Tag
 }
