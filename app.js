@@ -28,6 +28,11 @@ app.get('/belongsto', userController.belongsTo)
 //OneToMany
 app.get('/onetomany', userController.oneToMany)
 
+//ManyToMany
+app.get('/manytomany', userController.manyToMany)
+
+
+
 app.listen(PORT, () => {
     console.log("SERVER is running on PORT 5001")
 })
