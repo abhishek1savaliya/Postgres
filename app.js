@@ -32,8 +32,10 @@ app.get('/onetomany', userController.oneToMany)
 app.get('/manytomany', userController.manyToMany)
 
 //socpes
+app.get('/scopes', userController.scopes)
 
-app.get('/scopes',userController.scopes)
+//polymorphic
+app.get('/polymorphic', userController.polymorphic)
 
 
 

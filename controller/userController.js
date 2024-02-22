@@ -1,9 +1,13 @@
+const comment = require('../model/comment');
 const db = require('../model/index');
 const { Sequelize, Op, QueryTypes } = require('sequelize');
 const Posts = db.posts
 const Users = db.users
 const Tags = db.tags
 const Post_Tag = db.post_tag
+const Image = db.image
+const Video = db.video
+const Comment = db.comment
 
 const addUser = async (req, res) => {
     try {
@@ -293,6 +297,43 @@ const scopes = async (req, res) => {
     }
 };
 
+const polymorphic = async (req, res) => {
+    try {
+        //Image to comment
+        // let data = await Image.findAll({
+        //     include: [{
+        //         model: Comment
+        //     }]
+        // })
+
+        //Image to video
+        // let data = await Video.findAll({
+        //     include: [{
+        //         model: Comment
+        //     }]
+        // })
+
+        //comment to video
+        let data = await Comment.findAll({
+            include: [Image]
+        })
+
+        res.status(200).json({ message: "Polymorphic", data: data })
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+const manytomanypolymorphic = async (req, res) => {
+    try {
+        res.status(400).json({ message: "1234" })
+    }
+    catch (er) {
+        res.status(400).json({ message: error })
+    }
+}
+
 module.exports = {
     addUser,
     crud,
@@ -305,5 +346,7 @@ module.exports = {
     belongsTo,
     oneToMany,
     manyToMany,
-    scopes
+    scopes,
+    polymorphic,
+    manytomanypolymorphic
 };

@@ -35,6 +35,8 @@ db.posts = require('./post')(sequelize, DataTypes);
 db.tags = require('./tags')(sequelize, DataTypes)
 db.post_tag = require('./post_tag')(sequelize, DataTypes)
 
+
+
 // db.users.hasOne(db.posts, { foreignKey: 'user_id', as: 'postDetail' })
 
 db.users.addScope('checkGender', {
@@ -58,6 +60,31 @@ db.posts.belongsTo(db.users.scope('checkGender'), { foreignKey: 'user_id', as: '
 // oneToMany
 db.posts.belongsToMany(db.tags, { through: 'post_tag' })
 db.tags.belongsToMany(db.posts, { through: 'post_tag' })
+
+//Polymorphic One to Many
+db.video = require('./video')(sequelize, DataTypes)
+db.image = require('./image')(sequelize, DataTypes)
+db.comment = require('./comment')(sequelize, DataTypes)
+
+db.image.hasMany(db.comment, {
+    foreignKey: 'commentableId',
+    constraints: false,
+    scope: {
+        commentableType: 'image'
+    }
+})
+
+db.video.hasMany(db.comment, {
+    foreignKey: 'commentableId',
+    constraints: false,
+    scope: {
+        commentableType: 'video'
+    }
+})
+
+db.comment.belongsTo(db.image, { foreignKey: 'commentableId', constraints: false })
+db.comment.belongsTo(db.video, { foreignKey: 'commentableId', constraints: false })
+
 
 
 module.exports = db;
