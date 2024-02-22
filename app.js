@@ -37,7 +37,8 @@ app.get('/scopes', userController.scopes)
 //polymorphic
 app.get('/polymorphic', userController.polymorphic)
 
-
+//polymorphic-many
+app.get('/polymorphicmany', userController.manytomanypolymorphic)
 
 app.listen(PORT, () => {
     console.log("SERVER is running on PORT 5001")

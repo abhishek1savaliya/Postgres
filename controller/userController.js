@@ -8,6 +8,7 @@ const Post_Tag = db.post_tag
 const Image = db.image
 const Video = db.video
 const Comment = db.comment
+const Tag_taggable = db.tag_taggable
 
 const addUser = async (req, res) => {
     try {
@@ -327,10 +328,25 @@ const polymorphic = async (req, res) => {
 
 const manytomanypolymorphic = async (req, res) => {
     try {
-        res.status(400).json({ message: "1234" })
+        //image to tag
+        // const data = await Image.findAll({
+        //     include: [Tags]
+        // })
+        
+        //video to tag
+        // const data = await Video.findAll({
+        //     include: [Tags]
+        // })
+
+        //tage to image
+        const data = await Tags.findAll({
+            include : [Video,Image]
+        })
+
+        res.status(200).json({ message: true, data: data })
     }
     catch (er) {
-        res.status(400).json({ message: error })
+        res.status(400).json({ message: er })
     }
 }
 

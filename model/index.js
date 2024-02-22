@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const video = require('./video');
 
 // Create a Sequelize instance with connection details
 const sequelize = new Sequelize({
@@ -85,6 +86,63 @@ db.video.hasMany(db.comment, {
 db.comment.belongsTo(db.image, { foreignKey: 'commentableId', constraints: false })
 db.comment.belongsTo(db.video, { foreignKey: 'commentableId', constraints: false })
 
+//polymorphic many to many
 
+db.tag_taggable = require('./tag_taggable')(sequelize, DataTypes)
+
+//Relations 
+//1 Image to Tag
+
+db.image.belongsToMany(db.tags, {
+    through: {
+        model: db.tag_taggable,
+        unique: false,
+        scope: {
+            taggableType: 'image'
+        }
+    },
+    foreignKey: 'taggableId',
+    constraints: false
+})
+//2 tage to image
+
+db.tags.belongsToMany(db.image, {
+    through: {
+        model: db.tag_taggable,
+        unique: false,
+        scope: {
+            taggableType: 'image'
+        }
+    },
+    foreignKey: 'tagId',
+    constraints: false
+})
+
+//video to tag
+
+db.video.belongsToMany(db.tags, {
+    through: {
+        model: db.tag_taggable,
+        unique: false,
+        scope: {
+            taggableType: 'video'
+        }
+    },
+    foreignKey: 'taggableId',
+    constraints: false
+})
+
+//tag to video
+db.tags.belongsToMany(db.video, {
+    through: {
+        model: db.tag_taggable,
+        unique: false,
+        scope: {
+            taggableType: 'video'
+        }
+    },
+    foreignKey: 'tagId',
+    constraints: false
+})
 
 module.exports = db;
